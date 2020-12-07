@@ -13,8 +13,11 @@ int green = 0;
 int blue = 30;
 bool ascending = true;
 int highlight = 0;
+int offset = 0;
 
 void setup(){
+    Serial.begin(9600);
+
     strip.begin();
     strip.show();
 
@@ -48,7 +51,15 @@ void setStrip(){
     int red = MAX_BRIGHTNESS;
     int green = 0;
     int blue = 0;
-    for(int i = 0; i < LED_COUNT; i++){
+
+    if(offset <= 114){
+        offset++;
+    }else{
+        offset = 0;
+    }
+
+    for(int i = offset - 114; i < LED_COUNT + 144; i++){
+        
         if(red >= MAX_BRIGHTNESS){
             if(green < MAX_BRIGHTNESS && blue <= 0){                
                 green++;
@@ -71,6 +82,8 @@ void setStrip(){
             }
         }
 
-        strip.setPixelColor(i, red, green, blue);
+        if(i >= 0 && i < 300){
+            strip.setPixelColor(i, red, green, blue);
+        }
     }
 }
